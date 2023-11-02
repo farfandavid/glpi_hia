@@ -1,13 +1,8 @@
-FROM farfetchdev/glpihia:v2
+FROM mariadb:10.7
 
 ENV MARIADB_ROOT_PASSWORD=root
 ENV MARIADB_DATABASE=glpi
 ENV MARIADB_USER=glpiuser
 ENV MARIADB_PASSWORD=glpipass
 
-RUN ["bin/bash", "-c", "service apache2 restart"]
-#ENTRYPOINT ["bin/bash", "-c", "service apache2 restart"]
-#ENTRYPOINT [ "bin/bash", "-c", "apachectl -t" ]
-CMD ["apachectl", "-D", "FOREGROUND"]
-
-EXPOSE 80
+EXPOSE 3306
