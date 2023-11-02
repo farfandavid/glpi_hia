@@ -1,0 +1,56 @@
+docker run --name mariadb -p 80:80 -e MARIADB_ROOT_PASSWORD=root -e MARIADB_DATABASE=glpi -e MARIADB_USER=glpiuser -e MARIADB_PASSWORD=motdepasse -d mariadb:10.7
+
+glpi/glpi para la cuenta del administrador
+tech/tech para la cuenta de técnico
+normal/normal para la cuenta normal
+post-only/postonly para la cuenta postonly
+
+apt update && apt upgrade -y
+
+apt install perl -y
+apt install php-ldap php-imap php-apcu php-xmlrpc php-cas php-mysqli php-mbstring php-curl php-gd php-simplexml php-xml php-intl php-zip php-bz2 -y
+
+apt install apache2
+systemctl reload apache2
+#sitesavailable
+<VirtualHost *:80>
+    ServerName glpi.localhost
+
+    DocumentRoot /var/www/html/glpi/public
+
+    # If you want to place GLPI in a subfolder of your site (e.g. your virtual host is serving multiple applications),
+    # you can use an Alias directive. If you do this, the DocumentRoot directive MUST NOT target the GLPI directory itself.
+    # Alias "/glpi" "/var/www/glpi/public"
+
+    <Directory /var/www/html/glpi/public>
+        Require all granted
+
+        RewriteEngine On
+
+        # Redirect all requests to GLPI router, unless file exists.
+        RewriteCond %{REQUEST_FILENAME} !-f
+        RewriteRule ^(.*)$ index.php [QSA,L]
+    </Directory>
+</VirtualHost>
+
+# apachectl -t
+# php -m
+# a2enmod rewrite
+# service apache2 restart
+# apachectl -t
+# a2enmod mpm_prefork
+Considering conflict mpm_event for mpm_prefork:
+ERROR: Module mpm_event is enabled - cannot proceed due to conflicts. It needs to be disabled first!
+Considering conflict mpm_worker for mpm_prefork:
+# a2dismod mpm_event
+# a2enmod mpm_prefork
+# a2enmod php7.4
+ERROR: Module php7.4 does not exist!
+# apt-get install libapache2-mod-php7.4
+Reading package lists... Done
+# a2enmod php7.4
+# apachectl -t
+# service apache2 restart                                                                                                        [ OK ]
+# apachectl -t
+# mysql -u root
+
