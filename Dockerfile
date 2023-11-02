@@ -1,4 +1,4 @@
-FROM farfetchdev/glpihia:v4
+FROM farfetchdev/glpihia:v2
 
 ENV MARIADB_ROOT_PASSWORD=root
 ENV MARIADB_DATABASE=glpi
